@@ -1,0 +1,55 @@
+;
+; sio0_dev.pio - Pico acts as a device on the PS1 controller / memory card bus
+;
+; The PS1 is the bus master. For every byte it:
+;   - drives CLK low  -> we put our next DATA bit on the line
+;   - drives CLK high -> both sides sample (PS1 samples DATA, we sample CMD)
+;   8 bits, LSB first, clock idles high.
+; After a byte, a device pulses /ACK low to say "send the next one".
+;
+; DATA and /ACK are open-drain: the PS1 has pull-ups on them. We never drive
+; them high. The pin output level is fixed at 0 and we only switch the pin
+; direction: pindir 1 = pull low, pindir 0 = let go (reads as 1).
+;
+; Pin mapping (set from C):
+;   IN base      = CMD   (in pin 0)
+;   IN base + 1  = CLK   (in pin 1)
+;   OUT/SET base = DATA  (pindirs)
+;   side-set     = /ACK  (pindirs)
+;
+; CPU <-> state machine:
+;   TX word #1 (before each byte): reply byte, INVERTED, in bits 0-7
+;                                  (inverted because pindir 1 means "pull low")
+;   RX word    (after each byte):  received CMD byte in bits 24-31
+;   TX word #2 (after each byte):  0 = don't ACK, anything else = ACK
+;
+; The state machine runs at 50 MHz (20 ns per cycle), set from C. That leaves
+; plenty of margin if you later speed the PS1 side up past the stock 250 kHz.
+;
+
+.program sio0_dev
+.side_set 1 opt pindirs
+
+.wrap_target
+byte_start:
+    pull block                  ; wait for the CPU to give us the reply byte
+    set x, 7
+bit_loop:
+    wait 0 pin 1                ; CLK falling edge
+    out pindirs, 1              ; put our bit on DATA
+    wait 1 pin 1                ; CLK rising edge: PS1 reads DATA now
+    in pins, 1                  ; we read CMD
+    jmp x-- bit_loop
+    set pindirs, 0              ; let go of DATA
+    push block                  ; give the received byte to the CPU
+    pull block                  ; CPU decides: ACK this byte or not
+    out x, 32
+    jmp !x byte_start           ; 0 = stay quiet (not for us / last byte)
+    set y, 31
+ack_gap:                        ; wait ~3.2 us before ACK, like real devices
+    jmp y-- ack_gap [4]         ; 32 loops x 5 cycles x 20 ns
+    set y, 31 side 1            ; pull /ACK low ...
+ack_low:
+    jmp y-- ack_low [4]         ; ... for ~3.2 us
+    nop side 0                  ; release /ACK
+.wrap

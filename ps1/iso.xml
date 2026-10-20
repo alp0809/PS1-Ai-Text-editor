@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- CD image layout for mkpsxiso (paths relative to the build directory) -->
+<iso_project>
+	<track type="data">
+		<identifiers
+			system        ="PLAYSTATION"
+			volume        ="PS1WRITER"
+			volume_set    ="PS1WRITER"
+			publisher     ="PS1WRITER"
+			data_preparer ="PSN00BSDK ${PSN00BSDK_VERSION}"
+			application   ="PLAYSTATION"
+			copyright     ="README.TXT;1"
+		/>
+		<!-- Some consoles (Japanese, some PAL with a modchip) need a license
+		     file; dump one from a disc you own and uncomment:
+		<license file="${PROJECT_SOURCE_DIR}/license.dat" /> -->
+		<directory_tree>
+			<file name="SYSTEM.CNF"   type="data" source="${PROJECT_SOURCE_DIR}/system.cnf" />
+			<file name="PS1WRITE.EXE" type="data" source="ps1writer.exe" />
+			<dummy sectors="1024"/>
+		</directory_tree>
+	</track>
+</iso_project>
