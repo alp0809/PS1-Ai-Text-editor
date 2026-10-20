@@ -2,7 +2,7 @@
 
 Some of the code is written or supported by AI; use it at your own risk.
 
-[![video that expalins the project]([https://img.youtube.com/vi/VIDEO_ID/maxresdefault.jpg)](https://youtu.be/5wookCM2O7A)]([https://www.youtube.com/watch?v=VIDEO_ID](https://youtu.be/5wookCM2O7A))
+[![video](https://img.youtube.com/vi/5wookCM2O7A/maxresdefault.jpg)](https://youtu.be/5wookCM2O7A)
 
 A text editor for the original PlayStation, made for writing long documents such as a thesis. You type on an ordinary **USB keyboard** and documents are stored on an **SD card**. A Raspberry Pi Pico 2 on **controller port 2** handles both. An optional **AI assistant** on a PC can read the document and write into it.
 
