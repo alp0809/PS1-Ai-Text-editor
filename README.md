@@ -22,7 +22,6 @@ PC (USB)     <──>  pc/ai_bridge.py ──> Claude, a local model, or any Ope
 - Autosave, and you can keep typing while the card is written
 - AI chat (F2): ask about the document, insert or replace text with the answer
 
-![AI chat](docs/ai_chat.png)
 
 ## Quick start
 
@@ -32,8 +31,6 @@ Ready-built files are on the **Releases** page.
 2. **Flash the Pico**: hold BOOTSEL, plug it into USB and copy `ps1_writer.uf2` to the drive that appears.
 3. **Burn the disc**: write `ps1writer_250k.cue` to a CD-R at the slowest speed. The console must be able to boot burned discs.
 4. **Start**: power the Pico, plug in the keyboard *after* the Pico has started, then switch on the console.
-
-Not every keyboard works yet; `kbtest.uf2` checks yours (see [hardware](docs/hardware.md#keyboard-test)).
 
 ## Keys
 
@@ -56,8 +53,6 @@ Documents live in `/ps1writer/` on the card as plain UTF-8, so you can edit them
 pip install pyserial
 python3 pc/ai_bridge.py --backend claude-code     # or anthropic, openai (local models), echo
 ```
-
-The whole document is sent with each question. Setup, privacy and cost: [docs/ai-chat.md](docs/ai-chat.md).
 
 ## Limitations
 
