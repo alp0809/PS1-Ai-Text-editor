@@ -27,10 +27,10 @@ PC (USB)     <──>  pc/ai_bridge.py ──> Claude, a local model, or any Ope
 
 Ready-built files are on the **Releases** page.
 
-1. **Wire it up**: controller port 2, a USB-A socket and an SD card to the Pico. See [docs/hardware.md](docs/hardware.md) for pins and safety notes. Never connect the port's 7.6 V or 3.5 V pins.
+1. **Wire it up**: controller port 2, a USB-A socket and an SD card to the Pico. See for pins and safety notes. Never connect the port's 7.6 V or 3.5 V pins.
 2. **Flash the Pico**: hold BOOTSEL, plug it into USB and copy `ps1_writer.uf2` to the drive that appears.
 3. **Burn the disc**: write `ps1writer_250k.cue` to a CD-R at the slowest speed. The console must be able to boot burned discs.
-4. **Start**: power the Pico, plug in the keyboard *after* the Pico has started, then switch on the console.
+4. **Start**: plug the keyboard into the Pico, then power the Pico, then switch on the console.
 
 ## Keys
 
